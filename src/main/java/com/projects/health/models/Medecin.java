@@ -9,6 +9,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 
@@ -17,6 +18,7 @@ import jakarta.validation.constraints.NotBlank;
 @EntityListeners(AuditingEntityListener.class)
 
 public class Medecin {
+	
 	@Id
 	private int idMedecin;
 	
@@ -31,7 +33,8 @@ public class Medecin {
 	
 	private int numeroTel;
 	
-	//private List<Patient> patientsSuivis;
+	@OneToMany(mappedBy = "medecinTraitant")
+	private List<Patient> patientsSuivis;
 	public Medecin() {
 		
 	}
@@ -44,25 +47,34 @@ public class Medecin {
 		this.spécialité = spécialité;
 		this.adresse = adresse;
 		this.numeroTel = numeroTel;
-		//this.patientsSuivis=patientsSuivis;
+		this.patientsSuivis=patientsSuivis;
 		//this.service=service;
 	}
-	/*public String getService() {
+	/* public String getService() {
 		return service;
 	}
 	public void setService(String service) {
 		this.service = service;
 	} */
-	/* public List<Patient> getPatientsSuivis() {
+	
+	  // Getters and setters
+    public int getIdMedecin() {
+        return idMedecin;
+    }
+
+    public void setIdMedecin(int idMedecin) {
+        this.idMedecin = idMedecin;  // Manual ID assignment
+    }
+	 public List<Patient> getPatientsSuivis() {
 		return patientsSuivis;
-	}
+	} 
 	public void setPatientsSuivis(List<Patient> patientsSuivis) {
 		this.patientsSuivis = patientsSuivis;
-	} */
-	public int getIdMedecin() {
+	} 
+	public int getMedecinTraitant() {
 		return idMedecin;
 	}
-	public void setIdMedecin(int idMedecin) {
+	public void setMedecinTraitant(int idMedecin) {
 		this.idMedecin = idMedecin;
 	}
 	public String getNom() {

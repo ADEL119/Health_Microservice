@@ -103,7 +103,7 @@ public class PatientController {
 	@GetMapping("/patient/searchDoctorName/{id}")
 	public String rechercherNomMedecinTraitant(@PathVariable int id ) {
 		
-			return  pRep.findById(id).get().getIdMedecinTraitant().getNom();
+			return  pRep.findById(id).get().getMedecinTraitant().getNom();
 			
 		
 		

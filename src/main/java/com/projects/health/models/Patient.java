@@ -39,7 +39,7 @@ public class Patient {
 	private int age;
 	
 	@ManyToOne
-	@JoinColumn(name="id_medecin_traitant")
+	@JoinColumn(name="id_medecin_traitant",nullable=true)
 	private Medecin medecinTraitant;
 	
 
@@ -49,19 +49,18 @@ public class Patient {
 	@CreatedDate
 	private Date dateDebutTraitement;
 	public Patient(int cin, @NotBlank(message = "La valeur nom ne peut pas être vide") String nom,
-			@NotBlank(message = "La valeur sexe ne peut pas être vide") String sexe, int age,
-			Date dateDebutTraitement,Medecin medecinTraitant) {
+			@NotBlank(message = "La valeur sexe ne peut pas être vide") String sexe, int age,Medecin medecinTraitant) {
 		this.cin = cin;
 		this.nom = nom;
 		this.sexe = sexe;
 		this.age = age;
-		this.dateDebutTraitement = dateDebutTraitement;
-this.medecinTraitant=medecinTraitant;
+		this.medecinTraitant=medecinTraitant;
 }
-	public Medecin getIdMedecinTraitant() {
+	
+	public Medecin getMedecinTraitant() {
 		return medecinTraitant;
 	}
-	public void setIdMedecinTraitant(Medecin idMedecinTraitant) {
+	public void setMedecinTraitant(Medecin medecinTraitant) {
 		this.medecinTraitant = medecinTraitant;
 	}
 	@PrePersist
