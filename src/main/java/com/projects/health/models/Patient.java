@@ -7,7 +7,9 @@ import java.util.Date;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -40,10 +42,13 @@ public class Patient {
 	
 	@ManyToOne
 	@JoinColumn(name="id_medecin_traitant",nullable=true)
+	@JsonIgnore  //to ignore the medecinTraitant attribute in json,then below the jsonProperty add the needed value inside the json
 	private Medecin medecinTraitant;
 	
-
-
+	 @JsonProperty("medecinTraitantId")
+	  public int getMedecinTraitantId() {
+	        return  medecinTraitant.getIdMedecin() ;
+	    }
 	@Column(nullable=false, updatable=false)
 	@Temporal(TemporalType.DATE)
 	@CreatedDate
