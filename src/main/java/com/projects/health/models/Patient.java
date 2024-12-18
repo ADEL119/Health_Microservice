@@ -9,11 +9,14 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -30,6 +33,7 @@ import jakarta.validation.constraints.NotBlank;
 @JsonIgnoreProperties(value = {"dateDebutTraitement"}, allowGetters =true)
 public class Patient {
 	@Id
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int cin;  
 	@NotBlank(message = "La valeur nom ne peut pas être vide")
 	private String nom;
@@ -42,13 +46,18 @@ public class Patient {
 	
 	@ManyToOne
 	@JoinColumn(name="id_medecin_traitant",nullable=true)
-	@JsonIgnore  //to ignore the medecinTraitant attribute in json,then below the jsonProperty add the needed value inside the json
+	@JsonIgnore  //to ignore the medecinTraitant attribute in json,then below the jsonProperty add the needed value(idMedecin) inside the json
+	//will also prevent the infinite recursion.
 	private Medecin medecinTraitant;
 	
 	 @JsonProperty("medecinTraitantId")
-	  public int getMedecinTraitantId() {
+	  public Integer getMedecinTraitantId() {
+		 if(medecinTraitant !=null)
 	        return  medecinTraitant.getIdMedecin() ;
-	    }
+	    
+	 else 
+		 return null;
+}
 	@Column(nullable=false, updatable=false)
 	@Temporal(TemporalType.DATE)
 	@CreatedDate
@@ -57,8 +66,8 @@ public class Patient {
 			@NotBlank(message = "La valeur sexe ne peut pas être vide") String sexe, int age,Medecin medecinTraitant) {
 		this.cin = cin;
 		this.nom = nom;
-		this.sexe = sexe;
-		this.age = age;
+		this.sexe = sexe;                               
+		this.age = age;                              
 		this.medecinTraitant=medecinTraitant;
 }
 	

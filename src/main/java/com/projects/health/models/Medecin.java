@@ -2,6 +2,7 @@ package com.projects.health.models;
 
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -34,7 +35,7 @@ public class Medecin {
 	private int numeroTel;
 	
 	@OneToMany(mappedBy = "medecinTraitant")
-	private List<Patient> patientsSuivis;
+	private List<Patient> patientsSuivis= new ArrayList<>();
 	public Medecin() {
 		
 	}
@@ -47,7 +48,7 @@ public class Medecin {
 		this.spécialité = spécialité;
 		this.adresse = adresse;
 		this.numeroTel = numeroTel;
-		this.patientsSuivis=patientsSuivis;
+		this.patientsSuivis=patientsSuivis= new ArrayList<>();
 		//this.service=service;
 	}
 	/* public String getService() {
@@ -71,12 +72,7 @@ public class Medecin {
 	public void setPatientsSuivis(List<Patient> patientsSuivis) {
 		this.patientsSuivis = patientsSuivis;
 	} 
-	public int getMedecinTraitant() {
-		return idMedecin;
-	}
-	public void setMedecinTraitant(int idMedecin) {
-		this.idMedecin = idMedecin;
-	}
+	
 	public String getNom() {
 		return nom;
 	}
@@ -102,6 +98,10 @@ public class Medecin {
 		this.numeroTel = numeroTel;
 	}
 	
+	public void addPatient(Patient patient) {
+        this.patientsSuivis.add(patient);
+        patient.setMedecinTraitant(this); // Update the relationship in the Patient entity
+    }
 	
 
 }
